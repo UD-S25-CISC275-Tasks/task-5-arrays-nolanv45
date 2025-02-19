@@ -23,7 +23,7 @@ export function bookEndList(numbers: number[]): number[] {
  * number has been tripled (multiplied by 3).
  */
 export function tripleNumbers(numbers: number[]): number[] {
-    return numbers;
+    return numbers.map((number: number): number => number * 3);
 }
 
 /**
@@ -31,7 +31,13 @@ export function tripleNumbers(numbers: number[]): number[] {
  * the number cannot be parsed as an integer, convert it to 0 instead.
  */
 export function stringsToIntegers(numbers: string[]): number[] {
-    return [];
+    return numbers.map((number: string): number => {
+        const parse = parseInt(number);
+        if (isNaN(parse)) {
+            return 0;
+        }
+        return parse;
+    });
 }
 
 /**
@@ -42,7 +48,12 @@ export function stringsToIntegers(numbers: string[]): number[] {
  */
 // Remember, you can write functions as lambdas too! They work exactly the same.
 export const removeDollars = (amounts: string[]): number[] => {
-    return [];
+    return amounts.map((amount) => {
+        const withoutDol = amount.startsWith("$") ? amount.slice(1) : amount;
+
+        const parsed = parseInt(withoutDol);
+        return isNaN(parsed) ? 0 : parsed;
+    });
 };
 
 /**
