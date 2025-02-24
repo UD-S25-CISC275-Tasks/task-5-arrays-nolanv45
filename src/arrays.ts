@@ -62,14 +62,11 @@ export const removeDollars = (amounts: string[]): number[] => {
  * in question marks ("?").
  */
 export const shoutIfExclaiming = (messages: string[]): string[] => {
-    messages.map((message) => {
-        const madeUpper = message.endsWith("!") ? message.slice(-1) : message;
-        return madeUpper;
-    });
-
-    messages.filter((message) => message.endsWith("?"));
-
-    return messages;
+    return messages
+        .map((message) =>
+            message.endsWith("!") ? message.toUpperCase() : message,
+        )
+        .filter((message) => !message.endsWith("?"));
 };
 
 /**
@@ -123,5 +120,27 @@ export function makeMath(addends: number[]): string {
  * And the array [1, 9, 7] would become [1, 9, 7, 17]
  */
 export function injectPositive(values: number[]): number[] {
-    return [];
+    const firstNegative: number = values.findIndex(
+        (value: number): boolean => value < 0,
+    );
+    const returnList = [...values];
+
+    if (firstNegative !== -1) {
+        const spliceAmount = values.length - firstNegative;
+        const beforeNeg: number[] = [...values];
+        beforeNeg.splice(firstNegative, spliceAmount);
+        const sum = beforeNeg.reduce(
+            (currentTotal: number, num: number) => currentTotal + num,
+            0,
+        );
+        returnList.splice(firstNegative + 1, 0, sum);
+    } else {
+        const sum = values.reduce(
+            (currentTotal: number, num: number) => currentTotal + num,
+            0,
+        );
+        returnList.splice(values.length, 0, sum);
+    }
+
+    return returnList;
 }
